@@ -1,0 +1,10 @@
+STANDARD_KOMMENTAR - cout << "[" << sc_time_stamp() << "](" << name() << "): read " << readNumber << endl;
+ 
+WAIT - wait(10, SC_MS)
+
+CLOCK_INIT - sc_clock clock_sig("clock_sig", 10, SC_MS); //erstellen einer Uhr, gibt alle 10 ms ein Tick (positive Taktflanke)-Signal, dazwischen immer ein Tack (negative Taktflanke) 10, SC_MS
+CLOCK_WAIT - wait(clock.posedge_event()); //auf positive Taktflanke warten
+			//wait(clock.negedge_event()); //auf negative Taktflanke warten
+			//wait(clock.value_changed_event()); //auf nächste Taktflanke warten
+MEHR - siehe aufgabe b mit Thread
+
