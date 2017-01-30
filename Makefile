@@ -24,7 +24,7 @@ $(TARGET): $(OBJS)
 #%.o: %.cpp
 #	 $(CXX) $(CFLAGS) $(INCDIR) -g -c -Wno-deprecated $< -o $@
 
-$(UNIT).o: $(UNIT).cpp Producer.h Consumer.h
+$(UNIT).o: $(UNIT).cpp User.h Engine.h Control.h
 	$(CXX) $(CFLAGS) $(INCDIR) -g -c -Wno-deprecated $< -o $@
 
 clean:
