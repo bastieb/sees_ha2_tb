@@ -63,8 +63,8 @@ SC_MODULE(Control){
 					t=1;	
 				
 					//v_d anpassen
-					if (B_vm==1 && v_current > 0) v_d=v_d-1;
-					if (B_vp==1 && v_current < 55) v_d=v_d+1;
+					if (B_vm==1 && v_current > v_min && v_d >= v_min) v_d=v_d-1;
+					if (B_vp==1 && v_current < v_max && v_d <= v_max) v_d=v_d+1;
 					
 					//Tempomat passt m_throttle an
 					if(p_gas==0){
