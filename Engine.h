@@ -6,14 +6,14 @@
 SC_MODULE(Engine){
 
 	//von der kontrolleinheit
-	sc_in<int> S_on, S_off;
+	sc_in<int> S_on, S_off;//B! evtl. bool
 	sc_in<double> m_throttle;
 
 	//zur Kontrolleinheit
 	sc_out<double> v_current;	
 
 	//Variablendeklaration
-	int j;
+	int j;//B! besserer Name für J, zb timer oder counter
 
 	//Prozesse
 	SC_CTOR(Engine){
@@ -24,7 +24,7 @@ SC_MODULE(Engine){
 	//Funktionen
 	void start()
 	{
-		if (S_on==1){
+		if (S_on){
 			v_current = v_current + acceleration(m_throttle,v_current);
 			//Ausgabe nur alle 5 Sekunden
 			if(j==5){

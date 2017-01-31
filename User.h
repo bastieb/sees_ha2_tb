@@ -32,6 +32,8 @@ SC_MODULE(User){
 	//Abfolge des Nutzers Szenrio 1 von b)
 	void starten()
 	{
+		cout << "Timestamp / Throttle / V_current" << endl; //zur Erklärung der Tabelle
+		
 		B_start=1;	
 		cout << "Nutzer startet den Motor" << endl;
 		wait(SC_ZERO_TIME); 
