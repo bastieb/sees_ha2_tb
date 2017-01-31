@@ -21,6 +21,7 @@ SC_MODULE(Control){
 	sc_in<bool> in_range;
 
 	//Variablen
+	//int tempomatstatus;
 	double v_d;
 	int t;
 	static const int v_min = 0; // [m/s]
@@ -46,8 +47,9 @@ SC_MODULE(Control){
 				m_throttle = p_gas;
 
 			//Bremse wurde gedrückt
-			if(p_bremse)//B!
+			if(p_bremse){//B!
 				m_throttle = -p_bremse; t=0; tempomatstatus=0;
+			}
 
 			//Tempomat wurde angeschalten
 			if(B_set)//B!
@@ -56,11 +58,10 @@ SC_MODULE(Control){
 			//Tempomatmodus
 			if(tempomatstatus && !p_bremse){//B!
 					//v_d=v_current nur beim Anschalten
-					if(!t){//B!	
+					if(t == 0){
 						v_d=v_current;
 						}
 					t=1;	
-				
 					//v_d anpassen
 					if (B_vm && v_current > v_min) 
 						v_d=v_d-1;
@@ -68,7 +69,7 @@ SC_MODULE(Control){
 						v_d=v_d+1;
 					
 					//Tempomat passt m_throttle an
-					if(p_gas){
+					if(!p_gas){
 						
 						//Tempomat normal 
 						if(!in_range)
@@ -88,7 +89,7 @@ SC_MODULE(Control){
 			}
 		}
 		else //B! bitte im Kommentar welches else es ist
-			S_off=1,S_on=0, m_throttle=0, tempomatstatus=0;
+			{S_off=1,S_on=0, m_throttle=0, tempomatstatus=0;}
 	}
 
 
