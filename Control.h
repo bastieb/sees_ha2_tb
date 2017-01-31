@@ -21,11 +21,8 @@ SC_MODULE(Control){
 	sc_in<bool> in_range;
 
 	//Variablen
-	//int tempomatstatus;
 	double v_d;
 	int t;
-	static const int v_min = 0; // [m/s]
-	static const int v_max = 55; // [m/s]
 
 	//Prozessdefinition
 	SC_CTOR(Control){
@@ -38,58 +35,51 @@ SC_MODULE(Control){
 	//Prozess
 	void control_unit()
 	{ 
-		if(B_start){//B!
+		if(B_start==1){
 			//Motor wird gestartet
 			S_on=1;
 
 			//Gas wurde gedrückt						
-			if(!p_bremse)//B! 
-				m_throttle = p_gas;
+			if(p_bremse==0)
+			m_throttle = p_gas;
 
 			//Bremse wurde gedrückt
-			if(p_bremse){//B!
-				m_throttle = -p_bremse; t=0; tempomatstatus=0;
-			}
+			if(p_bremse > 0){
+			m_throttle = -p_bremse; t=0; tempomatstatus=0;}
 
 			//Tempomat wurde angeschalten
-			if(B_set)//B!
-				tempomatstatus=1; 
+			if(B_set==1)tempomatstatus=1; 
 
 			//Tempomatmodus
-			if(tempomatstatus && !p_bremse){//B!
+			if(tempomatstatus==1 && p_bremse==0){
 					//v_d=v_current nur beim Anschalten
-					if(t == 0){
+					if(t==0){	
 						v_d=v_current;
 						}
 					t=1;	
+				
 					//v_d anpassen
-					if (B_vm && v_current > v_min) 
-						v_d=v_d-1;
-					if (B_vp && v_current < v_max) 
-						v_d=v_d+1;
+					if (B_vm==1 && v_current > 0) v_d=v_d-1;
+					if (B_vp==1 && v_current < 55) v_d=v_d+1;
 					
 					//Tempomat passt m_throttle an
-					if(!p_gas){
+					if(p_gas==0){
 						
 						//Tempomat normal 
-						if(!in_range)
-							m_throttle= controller(v_d, v_current);
-//B! warum nicht else?						
+						if(in_range==false)m_throttle= controller(v_d, v_current);
+						
 						//ACC, FrontCar gesichtet
-						if(in_range){
+						if(in_range==true){
 							//ACC wenn v_d>v_acc (Vergleich double ist schlecht)
-							if(v_d > v_acc)
-								m_throttle=controller(v_acc, v_current);
+							if(v_d>v_acc)m_throttle=controller(v_acc, v_current);
 							//Tempomat
-							if(v_d <= v_acc)
-								m_throttle= controller(v_d, v_current);
+							if(v_d<=v_acc)m_throttle= controller(v_d, v_current);
 						}	
 					}			
 					next_trigger(1,SC_SEC);	
 			}
 		}
-		else //B! bitte im Kommentar welches else es ist
-			{S_off=1,S_on=0, m_throttle=0, tempomatstatus=0;}
+		else S_off=1,S_on=0, m_throttle=0, tempomatstatus=0;
 	}
 
 
