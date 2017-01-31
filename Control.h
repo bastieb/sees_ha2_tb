@@ -24,6 +24,10 @@ SC_MODULE(Control){
 	double v_d;
 	int t;
 
+	//Konstanten
+	static const int v_min = 0; // [m/s]
+ 	static const int v_max = 55; // [m/s]
+
 	//Prozessdefinition
 	SC_CTOR(Control){
 		
