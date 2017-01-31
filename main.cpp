@@ -67,7 +67,7 @@ int sc_main(int argc, char* argv[])
 		F1.tempomatstatus(tempomatstatus_sig);
 
 	// Run the simulation till sc_stop is encountered
-	sc_start(270,SC_SEC);
+	sc_start(240,SC_SEC);
 
 	return 0;
 }

@@ -13,7 +13,8 @@ SC_MODULE(Engine){
 	sc_out<double> v_current;	
 
 	//Variablendeklaration
-	
+	int j;
+
 	//Prozesse
 	SC_CTOR(Engine){
 		SC_METHOD(start);
@@ -25,8 +26,12 @@ SC_MODULE(Engine){
 	{
 		if (S_on==1){
 			v_current = v_current + acceleration(m_throttle,v_current);
-			cout << sc_time_stamp() << " / "<< int(m_throttle) << " / " << int(v_current) << " [m/s]" << endl;
-				
+			//Ausgabe nur alle 5 Sekunden
+			if(j==5){
+				cout << sc_time_stamp() << " / "<< int(m_throttle) << " / " << int(v_current) << " [m/s]" << endl;
+			j=0;
+			}
+			j++;	
 			next_trigger(1,SC_SEC);}
 	}
 
